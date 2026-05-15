@@ -1,7 +1,7 @@
 # Ex. No:1b 			Study of Client Server Chat Applications
 
 ## Aim: 
-To implement a Client Server Chat Applications
+To perform a study on Client Server Chat Applications
 ## Introduction:
 Client-server chat applications are a category of networked software that enables real-time communication between users over a network. This study explores the key components, architecture, and considerations in the development of client-server chat applications, highlighting their significance and common implementation practices.
 Client-server chat applications are software systems that enable real-time communication between users over a network. These applications follow a client-server model, where one component (the server) manages connections and facilitates communication, while the other component (the client) interacts with the server to send and receive messages. Below are the fundamental aspects and components involved in the basics of client-server chat applications:
@@ -73,8 +73,83 @@ Client-server chat applications are versatile tools that facilitate real-time co
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
 
+## Program
+Client 
+~~~
+import socket
+
+s = socket.socket()
+
+host = input("Enter hostname or host IP: ")
+port = 8080
+
+s.connect((host, port))
+print("Connected to chat server")
+
+while True:
+    incoming_message = s.recv(1024).decode()
+    print("Server:", incoming_message)
+    print()
+
+    message = input(">> ")
+    s.send(message.encode())
+    print("Sent")
+    print()
+
+    if message.lower() == "bye":
+        break
+
+s.close()
+
+~~~
+Server
+~~~
+import socket
+
+s = socket.socket()
+
+host = "127.0.0.1"
+port = 8080
+
+print("Server will start on host:", host)
+
+s.bind((host, port))
+s.listen(1)
+
+print()
+print("Waiting for connection...")
+print()
+
+conn, addr = s.accept()
+print(addr, "has connected to the server")
+print()
+
+while True:
+    message = input(">> ")
+    conn.send(message.encode())
+    print("Sent")
+    print()
+
+    if message.lower() == "bye":
+        break
+
+    incoming_message = conn.recv(1024).decode()
+    print("Client:", incoming_message)
+    print()
+
+    if incoming_message.lower() == "bye":
+        break
+
+conn.close()
+s.close()
+~~~
+##Output
+<img width="1920" height="1080" alt="Screenshot 2026-05-10 050821" src="https://github.com/user-attachments/assets/12857935-c08d-4562-97e2-6517932c2cde" />
+
 
 ## Result:
 
 Thus the study on Client Server Chat Applications has been performed
+
+
 
